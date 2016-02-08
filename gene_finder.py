@@ -115,14 +115,14 @@ def find_all_ORFs_oneframe(dna):
     orf_list = []
     while i < len(dna):
         if (dna[i:i+3]) == start_codon and (i % 3 == 0):
-            print i
+            # print i
             store = rest_of_ORF(dna[i:])
-            print store
+            # print store
             orf_list = orf_list + [store] #find rest of ORF
             i = i + len(store)     #change start index to end of current ORF
         else:
             i = i + 3
-    print orf_list
+    # print orf_list
     return orf_list
 
 
@@ -161,9 +161,7 @@ def longest_ORF(dna):
     >>> longest_ORF("ATGCGAATGTAGCATCAAA")
     'ATGCTACATTCGCAT'
     """
-    # TODO: implement this
-    pass
-
+    return max (find_all_ORFs_both_strands(dna), key = len)
 
 def longest_ORF_noncoding(dna, num_trials):
     """ Computes the maximum length of the longest ORF over num_trials shuffles
@@ -207,10 +205,7 @@ def gene_finder(dna):
 
 
 
-# get_reverse_complement("ATGCGAATGTAGCATCAAA")
-# find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
-# get_reverse_complement("CCGCGTTCA")
-find_all_ORFs_oneframe("ATGCATGAATGTTAGATGTGCCC")
+longest_ORF("ATGCGAATGTAGCATCAAA")
     # 'ATGAGA'
 if __name__ == "__main__":
     import doctest
