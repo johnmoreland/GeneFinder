@@ -177,7 +177,7 @@ def longest_ORF_noncoding(dna, num_trials):
     i=0
 
     while i < num_trials:
-        # print i
+        print i, " / ", num_trials
         t = list(dna)
         # print t
         random.shuffle(t)
@@ -207,8 +207,18 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-    # TODO: implement this
-    pass
+    i = 0
+    aa_list = []
+    while i<len(dna)-2: #the -2 makes sure that we never try to acces an index out of range
+        codon = dna[i:i+3]
+        # print codon
+        amino_acid = aa_table[codon]
+        # print amino_acid
+        aa_list.append(amino_acid)
+        i+=3
+    aa_string = ''.join(aa_list)
+    # print aa_string
+    return aa_string
 
 
 def gene_finder(dna):
@@ -217,14 +227,25 @@ def gene_finder(dna):
         dna: a DNA sequence
         returns: a list of all amino acid sequences coded by the sequence dna.
     """
-    # TODO: implement this
-    pass
+    threshold = longest_ORF_noncoding(dna,150)
+    print threshold
+    gene_list = []
+    for e in find_all_ORFs_both_strands(dna):
+        if len(e) > threshold:
+            # print e
+            gene_list.append(e)
+            # print gene_list
+    aa_list=[]
+    for e in gene_list:
+        aa_list.append(coding_strand_to_AA(e))
+        # print aa_list
+    aa_string = ''.join(aa_list)
+    print aa_string
+    return aa_string
 
-
-
-
-
-longest_ORF_noncoding("ATGCGAATGTAGCATCAAA", 10)
+from load import load_seq
+dna = load_seq("./data/X73525.fa")
+gene_finder(dna)
 
     # 'ATGAGA'
 if __name__ == "__main__":
